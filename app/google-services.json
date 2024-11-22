@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703850450611",
+    "project_id": "taskmovie-86069",
+    "storage_bucket": "taskmovie-86069.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703850450611:android:0ef26ea58c3b83fcf82ac6",
+        "android_client_info": {
+          "package_name": "com.example.taskmovie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9aqbBNjW9L1gkPK406dq0lwE0j9raIPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

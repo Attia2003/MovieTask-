@@ -14,11 +14,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.taskmovie.R
 import com.example.taskmovie.SearchActivityview
 import com.example.taskmovie.databinding.ActivityMainBinding
+import com.example.taskmovie.ui.popular.FragmentPoup
+import com.example.taskmovie.ui.toprated.FragmentTopRated
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     private lateinit var adapter: ViewPagerAdapter
+     lateinit var FireBae : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,10 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         }.attach()
         openSearchActivity()
-
-
-
-
 
 
 
