@@ -2,6 +2,7 @@ package com.example.taskmovie.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,8 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.taskmovie.apis.ApiManager
 import com.example.taskmovie.apis.apiresponse.ResponseDetails
+import com.example.taskmovie.apis.apiresponse.ResponseMoviesTrailer
+import com.example.taskmovie.apis.apiresponse.ResultsItemMovies
 import com.example.taskmovie.apis.showmessage
 import com.example.taskmovie.database.DetailsEntity
 import com.example.taskmovie.database.MovieDataBase
@@ -40,10 +43,14 @@ class DetailsActivity : AppCompatActivity() {
             "movie_database"
 
         ).addMigrations(MIGRATION_1_2)
-
             .build()
 
-        adapter = DetRecAdapter()
+
+        adapter = DetRecAdapter(fetchTrailer = { movieId, callback ->
+            showmovietrailer(movieId)
+        })
+
+//        adapter = DetRecAdapter()
         binding.recyclerdetails.adapter = adapter
 
         val movieId = intent.getIntExtra("ITEM_ID", -1)
@@ -55,7 +62,61 @@ class DetailsActivity : AppCompatActivity() {
             showError("Invalid movie ID")
         }
         showDetails(movieId)
+        showmovietrailer(movieId)
     }
+
+    private fun showmovietrailer(movieId: Int){
+        Log.d("Trailergo", "Fetching trailer for movie ID: $movieId")
+        fetchTrailer(movieId){
+            if (it!=null){
+                Log.d("Trailerenter?", "Trailer found: ${it.key}")
+                binding.webViewTrailer.visibility = View.VISIBLE
+                val videoUrl = "https://www.youtube.com/embed/${it.key}"
+                binding.webViewTrailer.apply {
+                    settings.javaScriptEnabled = true
+                    settings.loadWithOverviewMode = true
+                    settings.useWideViewPort = true
+                    loadUrl(videoUrl)
+                }
+                }else{
+                binding.webViewTrailer.visibility = View.GONE
+            }
+        }
+
+    }
+
+
+
+    private fun fetchTrailer(movieId: Int, callback: (ResultsItemMovies?) -> Unit) {
+        Log.d("enterfetchtrailer ", "Fetching trailer for movie ID: $movieId")
+        val apiKey = "9fdf52bbb519e79fc39b86f417677541"
+        ApiManager.getWebService().gettrailer(movieId, apiKey).enqueue(object : Callback<ResponseMoviesTrailer> {
+            override fun onResponse(
+                call: Call<ResponseMoviesTrailer>,
+                response: Response<ResponseMoviesTrailer>
+            ) {
+                if (response.isSuccessful) {
+
+                    val trailerList = response.body()?.results
+                    val trailer = trailerList?.firstOrNull { it?.site == "YouTube" && it?.official == true }
+                    Log.d("TrailerResponsecheck", "Trailer: $trailer")
+                        callback(trailer)
+
+
+                } else {
+                    Log.d("TrailerResponse", "Failed to get trailer: ${response.message()}")
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseMoviesTrailer>, t: Throwable) {
+
+                callback(null)
+            }
+        })
+
+    }
+
 
     private fun datacashdetails(movieId: Int) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -75,7 +136,7 @@ class DetailsActivity : AppCompatActivity() {
                 )
 
                 withContext(Dispatchers.Main) {
-                    adapter.binddetails(movieDetails)
+                    adapter.bindDetails(movieDetails)
                 }
             } else {
                 database.moviedao().deleteExpiredDetailsMovies(currentTime - cashexpiretime)
@@ -118,7 +179,7 @@ class DetailsActivity : AppCompatActivity() {
                                 database.moviedao().InserDetails(entity)
 
                                 withContext(Dispatchers.Main) {
-                                    adapter.binddetails(it)
+                                    adapter.bindDetails(it)
                                 }
                             }
                         }
