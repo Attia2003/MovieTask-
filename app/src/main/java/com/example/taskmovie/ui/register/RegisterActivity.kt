@@ -1,5 +1,6 @@
 package com.example.taskmovie.ui.register
 
+import com.example.taskmovie.ui.LoginActivity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -46,9 +47,12 @@ import kotlinx.coroutines.launch
         }
 
         binding.alreadyHaveAccount.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
             Toast.makeText(this, "Redirecting to login...", Toast.LENGTH_SHORT).show()
 
         }
+
     }
 
     private fun validateInput(
@@ -87,6 +91,7 @@ import kotlinx.coroutines.launch
                     }
                     return@launch
                 }
+
                 val newUser = ResgisterEntity(username = username, email = email, password = password)
                 userDao.insertUser(newUser)
 
@@ -102,7 +107,6 @@ import kotlinx.coroutines.launch
         }
     }
 
-
     private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -113,7 +117,6 @@ import kotlinx.coroutines.launch
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
 
     val MIGRATION_4_5 = object : Migration(4, 5) {
         override fun migrate(database: SupportSQLiteDatabase) {

@@ -5,8 +5,9 @@
     android:clickable="false"
     android:focusable="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools
-">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="15dp"
+    >
 
 
     <ProgressBar

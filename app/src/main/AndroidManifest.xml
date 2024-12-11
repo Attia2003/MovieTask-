@@ -15,9 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMovie"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.LoginActivity"
-            android:exported="false" />
+        
+        
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
@@ -27,17 +26,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.LoginActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />
+
         <activity
             android:name=".ui.DetailsActivity"
             android:exported="false" />
+
         <activity
             android:name=".SearchActivityview"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity" />
-        <activity
+
+       <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

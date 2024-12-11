@@ -46,4 +46,6 @@ interface MovieDao {
 
         @Query("SELECT * FROM users WHERE email = :email AND password = :password LIMIT 1")
         suspend fun loginUser(email: String, password: String): ResgisterEntity?
+
+        
 }

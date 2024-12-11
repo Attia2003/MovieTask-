@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             when (position) {
                 0 -> tab.text = "Popular"
                 1 -> tab.text = "Top Rated"
+
                 else -> {
                     tab.view
                 }
