@@ -3,7 +3,7 @@ package com.example.taskmovie.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [TopRatedEntity::class, PopularEntity::class,DetailsEntity::class], version = 4)
+@Database(entities = [TopRatedEntity::class, PopularEntity::class,DetailsEntity::class,ResgisterEntity::class], version = 5)
  abstract class MovieDataBase: RoomDatabase() {
         abstract fun moviedao() : MovieDao
 

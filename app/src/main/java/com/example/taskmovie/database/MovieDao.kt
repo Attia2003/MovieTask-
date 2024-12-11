@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.google.firebase.firestore.auth.User
 
 @Dao
 interface MovieDao {
@@ -36,4 +37,13 @@ interface MovieDao {
 
         @Query("DELETE FROM popular WHERE timestamp < :expiredTime")
         suspend fun deleteExpiredPopularMovies(expiredTime: Long)
+
+        @Insert
+        suspend fun insertUser(user: ResgisterEntity)
+
+        @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+        suspend fun getUserByEmail(email: String): ResgisterEntity?
+
+        @Query("SELECT * FROM users WHERE email = :email AND password = :password LIMIT 1")
+        suspend fun loginUser(email: String, password: String): ResgisterEntity?
 }

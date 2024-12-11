@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 data class PopularEntity (
     @PrimaryKey val id: Int?,
 
-
     val title: String?,
     val overview: String?,
     val posterPath: String?,
